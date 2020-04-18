@@ -1,0 +1,37 @@
+//--
+//from tora-k
+//--
+
+#include<iostream>
+#include<opencv2/opencv.hpp>
+
+
+int main()
+{
+
+	cv::Mat gray, sobel,laplacian, canny;
+
+	gray = cv::imread("IMG_2701.jpeg", 0);
+
+	if (gray.empty()) {
+		std::cout << "error" << "\n";
+		return 0;
+	}
+
+	Sobel(gray, sobel, CV_32F, 1, 1, 1, 5);
+
+	Laplacian(gray, laplacian, CV_32F, 1, 5);
+
+	Canny(gray, canny, 50, 100);
+
+	cv::imwrite("sobel.jpg", sobel);
+	cv::imwrite("laplacian.jpg", laplacian);
+	cv::imwrite("canny.jpg", canny);
+
+	sobel.release();
+	laplacian.release();
+	canny.release();
+
+	return 0;
+
+}
