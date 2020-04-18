@@ -1,0 +1,39 @@
+#include<iostream>
+#include<sstream>
+#include<opencv2/opencv.hpp>
+
+//using namespace cv;
+
+int main()
+{
+
+	cv::Mat gray, binary;
+
+	gray = cv::imread("IMG_2701.jpeg", 0);
+
+	if (gray.empty()) {
+		std::cout << "error" << "\n";
+		return 0;
+	}
+
+	std::cout << "閾値を入力してください\n";
+
+	int v;
+	std::cin >> v;
+	std::ostringstream ost_gray;
+	ost_gray << "gray_2701_"<<v<<".jpg";
+
+	cv::imwrite(ost_gray.str(), gray);
+
+	cv::threshold(gray, binary, v, 255, cv::THRESH_BINARY);
+	std::ostringstream ost_binary;
+	ost_binary << "2701_binary_" << v << ".jpg";
+
+	cv::imwrite(ost_binary.str(), binary);
+
+	gray.release();
+	binary.release();
+
+	return 0;
+
+}
