@@ -1,0 +1,45 @@
+//---
+//code from tora-k
+//---
+
+
+#include<iostream>
+#include<opencv2/opencv.hpp>
+
+int main()
+{
+	cv::VideoCapture Video(0);
+
+	if (!Video.isOpened()) {
+		std::cout << "error opening video.\n";
+		return -1;
+	}
+
+	cv::Mat frame;
+
+	cv::CascadeClassifier cascade;
+
+	cascade.load("haarcascades/haarcascade_frontalface_default.xml");
+
+	std::vector<cv::Rect> contour;
+
+	while (Video.read(frame)) {
+
+		cascade.detectMultiScale(frame, contour, 1.1, 5, 0, cv::Size(80, 80));
+
+		for (int i = 0; i < contour.size(); ++i) {
+			cv::rectangle(frame, cv::Point(contour[i].x, contour[i].y), cv::Point(contour[i].x + contour[i].width, contour[i].y + contour[i].height), cv::Scalar(255, 255, 255), 1);
+		}
+
+		cv::imshow("frame", frame);
+
+		int key = cv::waitKey(1);
+
+		if (key == 'q') {
+			cv::destroyWindow("frame");
+			break;
+		}
+	}
+
+	return 0;
+}
